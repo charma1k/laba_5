@@ -7,14 +7,15 @@
 import timeit
 import matplotlib.pyplot as plt
 
-cache_F = {0: 1, 1: 1}
+# Кэш для хранения вычисленных значений факториалов и функции F
 cache_factorial = {}
+cache_F = {0: 1, 1: 1}
 
 # Рекурсивная функция для вычисления F(n)
 def recursive_F(n):
     if n in cache_F:
         return cache_F[n]
-    result = (2 * recursive_F(n-1) / recursive_factorial(n)) + recursive_F(n-2)
+    result = (-1)**n * (2 * recursive_F(n-1) / recursive_factorial(n) + recursive_F(n-2))
     cache_F[n] = result
     return result
 
@@ -22,14 +23,14 @@ def recursive_F(n):
 def iterative_F(n):
     F = [1, 1]
     for i in range(2, n + 1):
-        F.append((2 * F[i-1] / iterative_factorial(i)) + F[i-2])
+        F.append((-1)**i * (2 * F[i-1] / iterative_factorial(i) + F[i-2]))
     return F[n]
 
 # Динамическая функция для вычисления F(n)
 def dynamic_F(n, cache=cache_F):
     if n in cache:
         return cache[n]
-    result = (2 * dynamic_F(n-1, cache) / dynamic_factorial(n)) + dynamic_F(n-2, cache)
+    result = (-1)**n * (2 * dynamic_F(n-1, cache) / dynamic_factorial(n) + dynamic_F(n-2, cache))
     cache[n] = result
     return result
 
